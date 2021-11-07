@@ -9,8 +9,8 @@ AS=nasm
 ASFLAGS=-f elf32
 
 
-all: loader.o kernel_main.o klinker.ld
-	ld -m elf_i386 -T klinker.ld -o kernel kernel_main.o loader.o
+all: loader.o kernel_main.o klinker.ld kprint.o
+	ld -m elf_i386 -T klinker.ld -o kernel kernel_main.o loader.o kprint.o
 	mkdir -p $(OUTPUT)/
 	cp *.o kernel $(OUTPUT)/
 
@@ -27,8 +27,11 @@ gen_iso: kernel
 loader.o: loader.asm
 	$(AS) $(ASFLAGS) loader.asm -o loader.o
 
-kernel_main.o: kernel_main.c
+kernel_main.o: kernel_main.c kprint.o
 	$(CC) $(CFLAGS) kernel_main.c -o kernel_main.o
+
+kprint.o: kprint.c
+	$(CC) $(CFLAGS) kprint.c -o kprint.o
 
 clean:
 	rm -rf $(OUTPUT)
