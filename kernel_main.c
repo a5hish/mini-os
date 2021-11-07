@@ -2,8 +2,8 @@
 
 void main(void)
 {
-	kprint("-- Mini-OS: Ashish --\n\r");
-	kprint("Initializing...");
 	kclear();
+	kprint("-- Mini-OS --\n\r");
+	kprint("Initializing...");
 	return;
 }
