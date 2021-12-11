@@ -1,12 +1,12 @@
-OBJ=kernel_main.o loader.o kprint.o
+OBJ=kernel_main.o loader.o kprint.o gdt.o
 
 KERNEL_IMAGE=kernel
 OUTPUT=bin
 OS_ISO=$(OUTPUT)/iso
 
 CC=gcc
-INCLUDES=include
-CFLAGS=-m32 -I$(INCLUDES) -c
+INCLUDES=include/
+CFLAGS=-m32 -Waddress-of-packed-member -I$(INCLUDES) -c
 LD_SCRIPT=klinker.ld
 
 AS=nasm
@@ -31,11 +31,14 @@ gen-iso: kernel
 loader.o: loader.asm
 	$(AS) $(ASFLAGS) loader.asm -o loader.o
 
-kernel_main.o: kernel_main.c kprint.o
-	$(CC) $(CFLAGS) kernel_main.c -o kernel_main.o
+%.o:%.c
+	gcc -c $(CFLAGS) $< -o $@
 
-kprint.o: kprint.c
-	$(CC) $(CFLAGS) kprint.c -o kprint.o
+#kernel_main.o: kernel_main.c kprint.o
+#	$(CC) $(CFLAGS) kernel_main.c -o kernel_main.o
+
+#kprint.o: kprint.c
+#	$(CC) $(CFLAGS) kprint.c -o kprint.o
 
 clean:
 	rm -rf $(OUTPUT)

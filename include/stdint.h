@@ -1,4 +1,4 @@
-#ifdef __STDINT_HDR
+#ifndef __STDINT_HDR
 #define __STDINT_HDR
 
 typedef signed char          s8_t;
